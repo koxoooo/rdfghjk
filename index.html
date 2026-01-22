@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reakcja Smierdzi - Animowana Strona</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Orbitron:wght@900&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            overflow: hidden;
+            font-family: 'Orbitron', sans-serif;
+            background: linear-gradient(45deg, #0a0a0a, #1a0a2e, #16213e, #0f3460);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        /* Particle Background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            animation: float linear infinite;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 1;
+            }
+
+            90% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translateY(-100vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Flying Text */
+        .flying-text {
+            position: absolute;
+            font-size: 8vw;
+            font-weight: 900;
+            color: transparent;
+            background: linear-gradient(45deg,
+                    #ff0000, #ff7300, #fffb00, #48ff00,
+                    #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: rainbowFlow 3s ease infinite, bounce 2s ease-in-out infinite;
+            text-shadow:
+                0 0 20px rgba(255, 0, 0, 0.8),
+                0 0 40px rgba(255, 0, 255, 0.6),
+                0 0 60px rgba(0, 255, 255, 0.4);
+            z-index: 10;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .flying-text:hover {
+            transform: scale(1.2) rotate(10deg);
+            filter: brightness(1.5);
+        }
+
+        @keyframes rainbowFlow {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes bounce {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-30px) rotate(5deg);
+            }
+        }
+
+        /* Cursor Text Follower - Fidget Spinner Style */
+        .cursor-text {
+            position: fixed;
+            font-size: 3vw;
+            font-weight: 900;
+            color: transparent;
+            background: linear-gradient(45deg,
+                    #ff0000, #ff7300, #fffb00, #48ff00,
+                    #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            background-clip: text;
+            animation: rainbowFlow 3s ease infinite, spinText 1s linear infinite;
+            text-shadow:
+                0 0 15px rgba(255, 0, 0, 0.8),
+                0 0 30px rgba(255, 0, 255, 0.6),
+                0 0 45px rgba(0, 255, 255, 0.4);
+            z-index: 18;
+            white-space: nowrap;
+            pointer-events: none;
+            opacity: 1;
+            filter: drop-shadow(0 0 20px rgba(255, 100, 200, 0.8));
+        }
+
+        @keyframes spinText {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Glass Orbs */
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%,
+                    rgba(255, 255, 255, 0.8),
+                    rgba(100, 200, 255, 0.4) 40%,
+                    rgba(255, 100, 200, 0.2));
+            backdrop-filter: blur(10px);
+            box-shadow:
+                0 0 40px rgba(255, 255, 255, 0.5),
+                inset 0 0 30px rgba(255, 255, 255, 0.3);
+            animation: floatOrb linear infinite;
+            z-index: 2;
+        }
+
+        @keyframes floatOrb {
+            0% {
+                transform: translate(0, 0) scale(1);
+                opacity: 0.7;
+            }
+
+            50% {
+                opacity: 1;
+            }
+
+            100% {
+                transform: translate(var(--tx), var(--ty)) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Lightning Effect */
+        .lightning {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 15;
+            opacity: 0;
+            animation: flash 8s ease-in-out infinite;
+        }
+
+        @keyframes flash {
+
+            0%,
+            90%,
+            92%,
+            94%,
+            100% {
+                opacity: 0;
+            }
+
+            91%,
+            93% {
+                opacity: 0.8;
+                background: rgba(255, 255, 255, 0.3);
+            }
+        }
+
+        /* Glitch Effect */
+        @keyframes glitch {
+
+            0%,
+            100% {
+                transform: translate(0);
+            }
+
+            20% {
+                transform: translate(-2px, 2px);
+            }
+
+            40% {
+                transform: translate(-2px, -2px);
+            }
+
+            60% {
+                transform: translate(2px, 2px);
+            }
+
+            80% {
+                transform: translate(2px, -2px);
+            }
+        }
+
+        .flying-text.glitch {
+            animation: rainbowFlow 3s ease infinite, bounce 2s ease-in-out infinite, glitch 0.3s ease infinite;
+        }
+
+        /* Ripple Effect */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.6);
+            animation: rippleExpand 3s ease-out infinite;
+            pointer-events: none;
+            z-index: 3;
+        }
+
+        @keyframes rippleExpand {
+            0% {
+                width: 0;
+                height: 0;
+                opacity: 1;
+            }
+
+            100% {
+                width: 500px;
+                height: 500px;
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Particle Background -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Lightning Effect -->
+    <div class="lightning"></div>
+
+    <!-- Flying Text -->
+    <div class="flying-text" id="flyingText">REAKCJA SMIERDZI</div>
+
+    <!-- Cursor Text - Spinning Chunkban -->
+    <div class="cursor-text" id="cursorText">chunkban</div>
+
+    <script>
+        // Create rainbow particles
+        const particlesContainer = document.getElementById('particles');
+        for (let i = 0; i < 50; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.animationDuration = (Math.random() * 10 + 5) + 's';
+            particle.style.animationDelay = Math.random() * 5 + 's';
+
+            // Random rainbow color
+            const hue = Math.random() * 360;
+            particle.style.background = `hsl(${hue}, 100%, 60%)`;
+            particle.style.boxShadow = `0 0 15px hsla(${hue}, 100%, 60%, 0.8)`;
+
+            particlesContainer.appendChild(particle);
+        }
+
+        // Create floating orbs
+        setInterval(() => {
+            const orb = document.createElement('div');
+            orb.className = 'orb';
+            const size = Math.random() * 100 + 50;
+            orb.style.width = size + 'px';
+            orb.style.height = size + 'px';
+            orb.style.left = Math.random() * window.innerWidth + 'px';
+            orb.style.top = Math.random() * window.innerHeight + 'px';
+            orb.style.setProperty('--tx', (Math.random() - 0.5) * 400 + 'px');
+            orb.style.setProperty('--ty', (Math.random() - 0.5) * 400 + 'px');
+            orb.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            document.body.appendChild(orb);
+
+            setTimeout(() => orb.remove(), 5000);
+        }, 500);
+
+        // Flying text animation - DVD Screensaver style
+        const flyingText = document.getElementById('flyingText');
+
+        // Start centered
+        let posX = window.innerWidth / 2 - 300; // Approximate center
+        let posY = window.innerHeight / 2 - 100;
+
+        // Constant velocity like classic DVD screensaver
+        let velocityX = 3;
+        let velocityY = 3;
+        let rotation = 0;
+
+        function animateText() {
+            // Update position
+            posX += velocityX;
+            posY += velocityY;
+
+            // Get text dimensions
+            const textWidth = flyingText.offsetWidth;
+            const textHeight = flyingText.offsetHeight;
+
+            // Bounce off walls - perfect edge detection
+            if (posX <= 0) {
+                posX = 0;
+                velocityX = Math.abs(velocityX); // Always bounce to the right
+                flyingText.classList.add('glitch');
+                setTimeout(() => flyingText.classList.remove('glitch'), 300);
+            }
+            if (posX >= window.innerWidth - textWidth) {
+                posX = window.innerWidth - textWidth;
+                velocityX = -Math.abs(velocityX); // Always bounce to the left
+                flyingText.classList.add('glitch');
+                setTimeout(() => flyingText.classList.remove('glitch'), 300);
+            }
+
+            if (posY <= 0) {
+                posY = 0;
+                velocityY = Math.abs(velocityY); // Always bounce down
+                flyingText.classList.add('glitch');
+                setTimeout(() => flyingText.classList.remove('glitch'), 300);
+            }
+            if (posY >= window.innerHeight - textHeight) {
+                posY = window.innerHeight - textHeight;
+                velocityY = -Math.abs(velocityY); // Always bounce up
+                flyingText.classList.add('glitch');
+                setTimeout(() => flyingText.classList.remove('glitch'), 300);
+            }
+
+            rotation += 0.5;
+
+            flyingText.style.left = posX + 'px';
+            flyingText.style.top = posY + 'px';
+            flyingText.style.transform = `rotate(${Math.sin(rotation * 0.01) * 10}deg)`;
+
+            requestAnimationFrame(animateText);
+        }
+
+        animateText();
+
+        // Optional: Random speed variations (uncomment if you want it)
+        // setInterval(() => {
+        //     const speedMultiplier = Math.random() * 2 + 2; // 2x to 4x speed
+        //     velocityX = velocityX > 0 ? speedMultiplier : -speedMultiplier;
+        //     velocityY = velocityY > 0 ? speedMultiplier : -speedMultiplier;
+        // }, 8000);
+
+        // Cursor text follower
+        const cursorText = document.getElementById('cursorText');
+        let textX = window.innerWidth / 2;
+        let textY = window.innerHeight / 2;
+        let cursorTextX = textX;
+        let cursorTextY = textY;
+
+        document.addEventListener('mousemove', (e) => {
+            textX = e.clientX;
+            textY = e.clientY;
+        });
+
+        function animateCursorText() {
+            // Smooth easing - slower than scissors
+            cursorTextX += (textX - cursorTextX) * 0.08;
+            cursorTextY += (textY - cursorTextY) * 0.08;
+
+            cursorText.style.left = (cursorTextX - 100) + 'px';
+            cursorText.style.top = (cursorTextY - 20) + 'px';
+
+            requestAnimationFrame(animateCursorText);
+        }
+
+        animateCursorText();
+
+        // Text click interaction
+        flyingText.addEventListener('click', () => {
+            velocityX = (Math.random() - 0.5) * 8;
+            velocityY = (Math.random() - 0.5) * 8;
+            flyingText.classList.add('glitch');
+            setTimeout(() => flyingText.classList.remove('glitch'), 500);
+        });
+
+        // Click anywhere to redirect to YouTube
+        document.addEventListener('click', () => {
+            window.location.href = 'https://www.youtube.com/watch?v=pHdyeo5uB3E';
+        });
+    </script>
+</body>
+
+</html>
